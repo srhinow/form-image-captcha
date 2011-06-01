@@ -19,7 +19,7 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @copyright  Sven Rhinow 2009 
+ * @copyright  Sven Rhinow 2009-2011
  * @author     Sven Rhinow 
  * @package    FormImageCaptcha
  * @license    LGPL 

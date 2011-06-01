@@ -65,6 +65,8 @@ class FormImageCaptcha extends Widget
 		$this->arrAttributes['maxlength'] =  $this->c;
 		$this->strCaptchaKey = 'c' . md5(uniqid('', true));
 		$this->mandatory = true;
+                
+                $_SESSION['AJAX-FFL'][$this->strId] = array('type'=>'imagecaptcha');
 	}
 
 
@@ -102,6 +104,8 @@ class FormImageCaptcha extends Widget
 		}
 
 		$this->Session->set('captcha_' . $this->strId, '');
+                
+                
 	}
 
 
@@ -116,16 +120,18 @@ class FormImageCaptcha extends Widget
 						$this->strId,
 						(strlen($this->strClass) ? ' ' . $this->strClass : ''),
 						$this->getAttributes()) . $this->addSubmit();
+                
 	}
 
 	/**
 	 * Generate the captcha question and return it as string
 	 * @return string
 	 */
-	public function generateImage()
+	public function generateCaptcha($src='', $alt='', $attributes='')
 	{
 		$int1 = '';
-		
+                global $objPage;
+
 		for($i=0 ; $i<$this->c ; $i++)
 		{
 		    $int1 .= mt_rand(1, 9);
@@ -134,13 +140,73 @@ class FormImageCaptcha extends Widget
 		$this->Session->set('captcha_' . $this->strId, array
 		(
 			'sum' => $int1,
-			'key' => $this->strCaptchaKey
+			'key' => $this->strCaptchaKey,
+                        'fic_width' => ($this->fic_width) ? $this->fic_width : $GLOBALS['TL_CONFIG']['fic_width'],
+                        'fic_height' => ($this->fic_height) ? $this->fic_height : $GLOBALS['TL_CONFIG']['fic_height'],
+                        'fic_fontcolor' => ($this->fic_linecolor) ? $this->fic_fontcolor : $GLOBALS['TL_CONFIG']['fic_fontcolor'],
+                        'fic_linecolor' => ($this->fic_linecolor) ? $this->fic_linecolor : $GLOBALS['TL_CONFIG']['fic_linecolor'],
+                        'fic_bgcolor' => ($this->fic_bgcolor) ? $this->fic_bgcolor : $GLOBALS['TL_CONFIG']['fic_bgcolor'],
+                        'fic_length' => ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'],
+                        'fic_fontsize' => ($this->fic_fontsize) ? $this->fic_fontsize : $GLOBALS['TL_CONFIG']['fic_fontsize'],
+                        'fic_charset' => ($this->fic_charset) ? $this->fic_charset : $GLOBALS['TL_CONFIG']['fic_charset'],
+                        'fic_charspace' => ($this->fic_charspace) ? $this->fic_charspace : $GLOBALS['TL_CONFIG']['fic_charspace'],
+                        'fic_angle' => ($this->fic_angle) ? $this->fic_angle : $GLOBALS['TL_CONFIG']['fic_angle'],
+                        'fic_padding' => ($this->fic_padding) ? $this->fic_padding : $GLOBALS['TL_CONFIG']['fic_padding'],
+                        'fic_font' => ($this->fic_font) ? $this->fic_font : $GLOBALS['TL_CONFIG']['fic_font']
+
+                        
 		));
+//                $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/FormImageCaptcha/html/js/ajax.js';
+                $GLOBALS['TL_MOOTOOLS'][] = "
+                        <script type=\"text/javascript\">
+                        <!--//--><![CDATA[//><!--
+                        var doAjax = function(e){
+                          e.stop(); // prevent the form from submitting
 
+                          new Request({
+                            url: 'ajax.php?action=ffl&id=".$this->strId."&sk=".$this->strId."',
+                            method: 'get',
+                            data: this,
+                            onRequest: function(){
+                              $('captcha_img').fade('out');
+                            },
+                            onSuccess: function(r){
+                              // the 'r' is response from server
+                             // $('number_box').setStyle('display','block');
+                                $('captcha_img').set('src', r);
+                                $('captcha_img').fade('in');
+                            }
+                          }).send();
+                        }
 
-		return sprintf('<img src="system/modules/FormImageCaptcha/image.php?sk=%s" alt="SecureImage" border="0" />',
-						$this->strId);
+                        addEvent('domready', function(){
+                          $('refresh_captcha').addEvent('click', doAjax);
+                        });
+                        //--><!]]>
+                        </script>
+                        ";
+		return sprintf('<img src="system/modules/FormImageCaptcha/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/><a href="{{link_url::%s}}" id="refresh_captcha">neu laden</a>',
+						$this->strId,$objPage->id);
 	}
+
+        public function generateAjax()
+	{
+            $this->import('Session');
+
+            $sk = $this->Input->get('sk');
+
+            //new Code
+            $c = ($GLOBALS['TL_CONFIG']['fic_length']) ? $GLOBALS['TL_CONFIG']['fic_length'] : $this->defCharCount;            
+            for($i=0 ; $i<$this->c ; $i++)
+            {
+                $int1 .= mt_rand(1, 9);
+            }
+
+            $sessionName ='captcha_' . $sk;
+            $this->Session->set($sessionName['sum'],$int1);
+
+            print "system/modules/FormImageCaptcha/image.php?sk=".$sk."&k=".$this->Session->get($sessionName['sum'])*$sk;
+        }
 
 }
 
