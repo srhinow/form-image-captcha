@@ -186,7 +186,7 @@ class NumberImageCaptcha extends Widget
                         <script type=\"text/javascript\">
                         <!--//--><![CDATA[//><!--
                         
-                        $$('input[name=sendAjax]').each(function(el){ console.log(el);el.set('value','0')});
+                        $$('input[name=sendAjax]').each(function(el){ el.set('value','0')});
                         
                         var doAjax = function(e){
                           e.stop(); // prevent the form from submitting
@@ -203,7 +203,7 @@ class NumberImageCaptcha extends Widget
                              // $('number_box').setStyle('display','block');
                                 $('captcha_img').set('src', r);
                                 $('captcha_img').fade('in');
-                                $$('input[name=sendAjax]').each(function(el){ console.log(el);el.set('value','1')});
+                                $$('input[name=sendAjax]').each(function(el){ el.set('value','1')});
                             }
                           }).send();
                         }
