@@ -17,7 +17,7 @@ CREATE TABLE `tl_form_field` (
 `fic_height` varchar(5) NOT NULL default '',
 `fic_fontcolor` varchar(25) NOT NULL default '',
 `fic_linecolor` varchar(25) NOT NULL default '',
-`fic_bgcolor` varchar(5) NOT NULL default '',
+`fic_bgcolor` varchar(25) NOT NULL default '',
 `fic_length` varchar(5) NOT NULL default '',
 `fic_fontsize` varchar(5) NOT NULL default '',
 `fic_charset` varchar(5) NOT NULL default '',

@@ -19,9 +19,9 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
-* @copyright  Felix Pfeiffer : Neue Medien 2009  & Nik Andreichikov
- * @author     Felix Pfeiffer   info@felixpfeiffer.com & Nik Andreichikov annd.design@googlemail.com
- * @package    PictureCaptcha 
+ * @copyright  sr-tag Webentwicklung 2011 
+ * @author     Sven Rhinow 
+ * @package    NumberImageCaptcha 
  * @license    LGPL 
  * 
  */
@@ -43,5 +43,5 @@ $GLOBALS['TL_LANG']['tl_settings']['fic_bgimage'] = array('Hintergrundbild');
 $GLOBALS['TL_LANG']['tl_settings']['fic_font'] = array('Schriftart');
 $GLOBALS['TL_LANG']['tl_settings']['fic_defaultcaptcha'] = array('Standart Captcha','Wählen Sie ob die Bildcaptcha die Textcaptcha ersetzen soll, Standart - ist aus'); 
  
-$GLOBALS['TL_LANG']['tl_settings']['imagecaptcha_legend'] = 'FormImageCaptcha Einstellungen';
+$GLOBALS['TL_LANG']['tl_settings']['imagecaptcha_legend'] = 'NumberImageCaptcha Einstellungen';
 ?>

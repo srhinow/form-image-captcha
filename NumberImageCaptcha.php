@@ -30,12 +30,13 @@
 /**
  * Class FormCaptcha
  *
- * File upload field.
- * @copyright  Leo Feyer 2005-2009
- * @author     Leo Feyer <leo@typolight.org>
- * @package    Controller
+ * captcha field.
+ * @copyright  sr-tag Webentwicklung 2011 
+ * @author     Sven Rhinow 
+ * @package    NumberImageCaptcha 
+ * @license    LGPL 
  */
-class FormImageCaptcha extends Widget
+class NumberImageCaptcha extends Widget
 {
 
 	/**
@@ -60,7 +61,21 @@ class FormImageCaptcha extends Widget
 	{
 		parent::__construct($arrAttributes);
                 
-                $this->c = ($GLOBALS['TL_CONFIG']['fic_length']) ? $GLOBALS['TL_CONFIG']['fic_length'] : $this->defCharCount;			
+                $this->import('Session');
+		
+		$sk = $this->Input->get('sk');
+		$sessionName ='captcha_' . $sk;                
+                
+		if($this->Input->get('k')) {
+		
+		     $key = $this->Input->get('k')/$this->strId;
+		     $this->Session->set($sessionName['sum'],$key);
+		     
+		}                
+                if($this->fic_length >0) $this->c = $this->fic_length;
+                elseif($GLOBALS['TL_CONFIG']['fic_length']) $this->c = $GLOBALS['TL_CONFIG']['fic_length'];
+                elseif($this->Session->get($sessionName['fic_length'])) $this->c = $this->Session->get($sessionName['fic_length']);
+                else $this->c = $this->defCharCount;			
 
 		$this->arrAttributes['maxlength'] =  $this->c;
 		$this->strCaptchaKey = 'c' . md5(uniqid('', true));
@@ -95,12 +110,18 @@ class FormImageCaptcha extends Widget
 	 */
 	public function validate()
 	{
-		$arrCaptcha = $this->Session->get('captcha_' . $this->strId);
+		$sessionName ='captcha_' . $this->strId;
+		$arrCaptcha = $this->Session->get($sessionName); 
 
-		if (!is_array($arrCaptcha) || !strlen($arrCaptcha['key']) || !strlen($arrCaptcha['sum']) || $this->Input->post($arrCaptcha['key']) != $arrCaptcha['sum'] || $arrCaptcha['time'] > (time() - 3))
+                //Phänomän mit Sessionsetzung mit und ohne Ajax ausgleichen
+                $sum = ($this->Input->post('sendAjax')==1)? $this->Session->get($sessionName['sum']) : $arrCaptcha['sum']; 
+		
+                $length = ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'];
+                
+		if (!is_array($arrCaptcha) || !strlen($arrCaptcha['key']) || !strlen($sum) || $this->Input->post($arrCaptcha['key']) != $sum)
 		{
 			$this->class = 'error';
-			$this->addError($GLOBALS['TL_LANG']['ERR']['imagecaptcha']);
+			$this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['imagecaptcha'],$sum));
 		}
 
 		$this->Session->set('captcha_' . $this->strId, '');
@@ -141,6 +162,7 @@ class FormImageCaptcha extends Widget
 		(
 			'sum' => $int1,
 			'key' => $this->strCaptchaKey,
+			'anz' => $this->c,
                         'fic_width' => ($this->fic_width) ? $this->fic_width : $GLOBALS['TL_CONFIG']['fic_width'],
                         'fic_height' => ($this->fic_height) ? $this->fic_height : $GLOBALS['TL_CONFIG']['fic_height'],
                         'fic_fontcolor' => ($this->fic_linecolor) ? $this->fic_fontcolor : $GLOBALS['TL_CONFIG']['fic_fontcolor'],
@@ -175,6 +197,7 @@ class FormImageCaptcha extends Widget
                              // $('number_box').setStyle('display','block');
                                 $('captcha_img').set('src', r);
                                 $('captcha_img').fade('in');
+                                $$('input[name=sendAjax]').each(function(el){ console.log(el);el.set('value','1')});
                             }
                           }).send();
                         }
@@ -185,8 +208,13 @@ class FormImageCaptcha extends Widget
                         //--><!]]>
                         </script>
                         ";
-		return sprintf('<img src="system/modules/FormImageCaptcha/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/><a href="{{link_url::%s}}" id="refresh_captcha">neu laden</a>',
+                       
+		return sprintf('<img src="system/modules/NumberImageCaptcha/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/>
+		<a href="{{link_url::%s}}" id="refresh_captcha">neu laden</a>
+		<input type="hidden" name="sendAjax" value="0"/>',
 						$this->strId,$objPage->id);
+						
+		
 	}
 
         public function generateAjax()
@@ -194,18 +222,21 @@ class FormImageCaptcha extends Widget
             $this->import('Session');
 
             $sk = $this->Input->get('sk');
-
+            $sessionName ='captcha_' . $sk;
+            $captchaSession = $this->Session->get($sessionName);
+         
             //new Code
-            $c = ($GLOBALS['TL_CONFIG']['fic_length']) ? $GLOBALS['TL_CONFIG']['fic_length'] : $this->defCharCount;            
-            for($i=0 ; $i<$this->c ; $i++)
+             if($captchaSession['fic_length']) $this->c = $captchaSession['fic_length'];
+             else $this->c = $GLOBALS['TL_CONFIG']['fic_length']; 
+            	          
+            for($i=0 ; $i < $this->c ; $i++)
             {
                 $int1 .= mt_rand(1, 9);
             }
-
-            $sessionName ='captcha_' . $sk;
+            
             $this->Session->set($sessionName['sum'],$int1);
 
-            print "system/modules/FormImageCaptcha/image.php?sk=".$sk."&k=".$this->Session->get($sessionName['sum'])*$sk;
+            print "system/modules/NumberImageCaptcha/image.php?sk=".$sk."&k=".$this->Session->get($sessionName['sum'])*$sk;
         }
 
 }

@@ -19,7 +19,7 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @copyright  Sven Rhinow 2009 
+ * @copyright  sr-tag Webentwicklung 2011 
  * @author     Sven Rhinow 
  * @package    Language
  * @license    LGPL 
@@ -32,5 +32,5 @@
  */
 $GLOBALS['TL_LANG']['MSC'][''] = '';
 $GLOBALS['TL_LANG']['FFL']['imagecaptcha']     = array('AntiSpam-Bild', 'ein Bild mit Zahlen , diese müssen in ein benachbartes Textfeld übertragen werden.');
-$GLOBALS['TL_LANG']['ERR']['imagecaptcha'] = 'Bitte tragen Sie die 5 stellige Nummer in das nebenstehende Feld';
+$GLOBALS['TL_LANG']['ERR']['imagecaptcha'] = 'Bitte tragen Sie die %s stellige Nummer in das nebenstehende Feld';
 ?>

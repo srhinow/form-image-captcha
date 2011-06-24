@@ -31,20 +31,20 @@ $GLOBALS['TL_DCA']['tl_form_field']['palettes']['imagecaptcha']='{type_legend},t
  * Fields
  */
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_width'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_width'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_width'],
 			'default'		  => 91,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_height'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_height'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_height'],
 			'default'		  => 31,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_fontcolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_fontcolor'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_fontcolor'],
 			'inputType'               => 'text',
 			'default'		  => 'ffffff',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -54,7 +54,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_fontcolor'] = array(
 			)
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_linecolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_linecolor'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_linecolor'],
 			'inputType'               => 'text',
 			'default'		  => 'eeeeee',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -64,7 +64,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_linecolor'] = array(
 			)
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_bgcolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_bgcolor'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_bgcolor'],
 			'inputType'               => 'text',
 			'default'		  => '000000',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -74,38 +74,38 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_bgcolor'] = array(
 			)
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_font'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_font'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_font'],
 			'default'		  => 4,
 			'inputType'               => 'select',
 			'options_callback'        => array('tl_form_field_helper', 'getFonts'),
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_fontsize'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_fontsize'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_fontsize'],
 			'default'		  => 4,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_length'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_length'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_length'],
 			'default'		  => 5,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_charspace'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_charspace'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_charspace'],
 			'default'		  => 18,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_angle'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_angle'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_angle'],
 			'default'		  => 0,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['fic_padding'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_padding'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['fic_padding'],
 			'default'		  => 0,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
@@ -149,11 +149,11 @@ class tl_form_field_helper extends Backend
 	public function getFonts()
 	{
 		$arrReturn = array();
-		$arrFiles = scan(TL_ROOT . '/system/modules/FormImageCaptcha/html');
+		$arrFiles = scan(TL_ROOT . '/system/modules/NumberImageCaptcha/html');
                 #print_r($arrFiles);
 		foreach ($arrFiles as $strFile)
 		{
-			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/FormImageCaptcha/html/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
+			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/NumberImageCaptcha/html/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
 			{
 			     continue;
 			}

@@ -19,9 +19,9 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @copyright  Sven Rhinow 2009 
+ * @copyright  sr-tag Webentwicklung 2011 
  * @author     Sven Rhinow 
- * @package    myFormExtension 
+ * @package    NumberImageCaptcha 
  * @license    LGPL 
  * @filesource
  */

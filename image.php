@@ -19,10 +19,10 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @copyright  Felix Pfeiffer : Neue Medien 2009
- * @author     Felix Pfeiffer   info@felixpfeiffer.com & Nik Andreichikov   annd.design@googlemail.com
- * @package    PictureCaptcha
- * @license    LGPL
+ * @copyright  sr-tag Webentwicklung 2011 
+ * @author     Sven Rhinow 
+ * @package    NumberImageCaptcha 
+ * @license    LGPL 
  * @filesource
  */
 
@@ -82,7 +82,7 @@ class createCapture extends Frontend
                 $k = $this->Input->get('k');
                 if($k) $this->zahl =  (string) ($k / $sk);
 
-                $this->c = ($GLOBALS['TL_CONFIG']['fic_length']) ? $GLOBALS['TL_CONFIG']['fic_length'] : $this->defCharCount;
+                $this->c = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_length']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_length'] : $this->defCharCount;
 
 		//Ermitteln der Abmaße
 		$this->imgWidth  = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_width']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_width'] : $this->defImg_width;
@@ -113,11 +113,10 @@ class createCapture extends Frontend
 		    $this->Font = $this->defFontPath .$this->defFont;
 		}
 
-		$this->fontSize = ($GLOBALS['TL_CONFIG']['fic_fontsize']) ? $GLOBALS['TL_CONFIG']['fic_fontsize'] : $this->defFontSize;
-		$this->charspace = ($GLOBALS['TL_CONFIG']['fic_charspace']) ? $GLOBALS['TL_CONFIG']['fic_charspace'] : $this->defCharSpace;
-		$this->padding = ($GLOBALS['TL_CONFIG']['fic_padding']) ? $GLOBALS['TL_CONFIG']['fic_padding'] : $this->defImgPadding;
-		$this->angle = ($GLOBALS['TL_CONFIG']['fic_angle']) ? $GLOBALS['TL_CONFIG']['fic_angle'] : $this->defAngle;
-
+		$this->fontSize = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_fontsize']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_fontsize'] : $this->defFontSize;
+		$this->charspace = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_charspace']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_charspace'] : $this->defCharSpace;
+		$this->padding = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_padding']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_padding'] : $this->defImgPadding;
+		$this->angle = ($_SESSION['FE_DATA']["captcha_".$sk]['fic_angle']) ? $_SESSION['FE_DATA']["captcha_".$sk]['fic_angle'] : $this->defAngle;
 
 
 	}
@@ -134,7 +133,6 @@ class createCapture extends Frontend
 	header ("Cache-Control: no-cache, must-revalidate");        // HTTP/1.1
 	header ("Pragma: no-cache");
 
-
 	/* das Bild und seine Eigenschaften */
 	$im        = imagecreate($this->imgWidth, $this->imgHeight); # das bild erstellen
 	$bgcolor   = imagecolorallocate($im, $this->rgbBgColor['r'], $this->rgbBgColor['g'], $this->rgbBgColor['b']); # Backgroundcolor setzen
@@ -150,9 +148,12 @@ class createCapture extends Frontend
 
 	/* den Zahlencode auf das Bild "schreiben" */
 	$w = $this->padding;
+        $half = $this->imgHeight / 2;
+        $minp = ($this->padding < $half)? $this->fontSize : $this->padding+$this->fontSize;
+        $maxp = ($this->padding > $half)? $half : $this->padding+$this->fontSize;
+        
 	for($i=0 ; $i < $this->c ; $i++){
-
-	    imagettftext($im, $this->fontSize, mt_rand($this->angle,-$this->angle), $w, mt_rand(($this->imgHeight/2)+$this->padding,$this->imgHeight-$this->padding), $fontcolor, $this->Font, $this->zahl[$i]);
+	    imagettftext($im, $this->fontSize, mt_rand(-$this->angle,$this->angle), $w, mt_rand($minp,$maxp), $fontcolor, $this->Font, $this->zahl[$i]);
 	    $w += $this->charspace;
 	}
 
