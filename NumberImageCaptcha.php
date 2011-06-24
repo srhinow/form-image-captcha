@@ -185,6 +185,9 @@ class NumberImageCaptcha extends Widget
                 $GLOBALS['TL_MOOTOOLS'][] = "
                         <script type=\"text/javascript\">
                         <!--//--><![CDATA[//><!--
+                        
+                        $$('input[name=sendAjax]').each(function(el){ console.log(el);el.set('value','0')});
+                        
                         var doAjax = function(e){
                           e.stop(); // prevent the form from submitting
 
