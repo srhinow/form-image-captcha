@@ -121,7 +121,7 @@ class NumberImageCaptcha extends Widget
 		if (!is_array($arrCaptcha) || !strlen($arrCaptcha['key']) || !strlen($sum) || $this->Input->post($arrCaptcha['key']) != $sum)
 		{
 			$this->class = 'error';
-			$this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['imagecaptcha'],$sum));
+			$this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['imagecaptcha'],$length));
 		}
 
 		$this->Session->set('captcha_' . $this->strId, '');
