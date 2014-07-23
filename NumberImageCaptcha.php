@@ -51,37 +51,48 @@ class NumberImageCaptcha extends Widget
 	 */
 	protected $strCaptchaKey;
 	
+	/**
+	* Default/Fallback chars
+	* @var integer
+	*/
 	protected $defCharCount = 5;
+	
+	/**
+	* defined count
+	* @var integer
+	*/
+	protected $c = 0;	
 	
 	/**
 	 * Initialize the object
 	 * @param array
 	 */
-	public function __construct($arrAttributes=false)
+	public function __construct($arrAttributes = false)
 	{
 		parent::__construct($arrAttributes);
                 
-                $this->import('Session');
+		$this->import('Session');
 		
 		$sk = $this->Input->get('sk');
-		$sessionName ='captcha_' . $sk;                
+		$this->sessionName ='captcha_' . $sk;                
                 
-		if($this->Input->get('k')) {
-		
-		     $key = $this->Input->get('k')/$this->strId;
-		     $this->Session->set($sessionName['sum'],$key);
-		     
+		if($this->Input->get('k')) 
+		{		
+		     $key = $this->Input->get('k') / $this->strId;
+		     $this->Session->set($this->sessionName['sum'],$key);    
 		}                
-                if($this->fic_length >0) $this->c = $this->fic_length;
-                elseif($GLOBALS['TL_CONFIG']['fic_length']) $this->c = $GLOBALS['TL_CONFIG']['fic_length'];
-                elseif($this->Session->get($sessionName['fic_length'])) $this->c = $this->Session->get($sessionName['fic_length']);
-                else $this->c = $this->defCharCount;			
+		$sessionDataArr = $this->Session->get($sessionName);
+		
+		if($this->fic_length > 0) $this->c = $this->fic_length;
+		elseif($GLOBALS['TL_CONFIG']['fic_length']) $this->c = $GLOBALS['TL_CONFIG']['fic_length'];
+		elseif($sessionDataArr['fic_length']) $this->c = $sessionDataArr['fic_length'];
+		else $this->c = $this->defCharCount; //fallback			
 
 		$this->arrAttributes['maxlength'] =  $this->c;
 		$this->strCaptchaKey = 'c' . md5(uniqid('', true));
 		$this->mandatory = true;
                 
-                $_SESSION['AJAX-FFL'][$this->strId] = array('type'=>'imagecaptcha');
+        $_SESSION['AJAX-FFL'][$this->strId] = array('type'=>'imagecaptcha');
 	}
 
 
@@ -110,21 +121,21 @@ class NumberImageCaptcha extends Widget
 	 */
 	public function validate()
 	{
-		$sessionName ='captcha_' . $this->strId;
-		$arrCaptcha = $this->Session->get($sessionName); 
+		$this->sessionName ='captcha_' . $this->strId;
+		$arrCaptcha = $this->Session->get($this->sessionName); 
 
-                //Phänomän mit Sessionsetzung mit und ohne Ajax ausgleichen
-                $sum = ($this->Input->post('sendAjax')==1)? $this->Session->get($sessionName['sum']) : $arrCaptcha['sum']; 
-		
-                $length = ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'];
+		//Phänomän mit Sessionsetzung mit und ohne Ajax ausgleichen
+		$sum =  ($this->Input->post('sendAjax')) ? $this->Input->post('k') / $arrCaptcha['sk'] : $arrCaptcha['sum']; 
+
+		$length = ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'];
                 
 		if (!is_array($arrCaptcha) || !strlen($arrCaptcha['key']) || !strlen($sum) || $this->Input->post($arrCaptcha['key']) != $sum)
 		{
-			$this->class = 'error';
+			$this->class = 'error '.$this->Input->post('k');
 			$this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['imagecaptcha'],$length));
 		}
 
-		$this->Session->set('captcha_' . $this->strId, '');
+		$this->Session->set($this->sessionName, '');
                 
                 
 	}
@@ -151,100 +162,112 @@ class NumberImageCaptcha extends Widget
 	public function generateCaptcha($src='', $alt='', $attributes='')
 	{
 		$int1 = '';
-                global $objPage;
-
+        global $objPage;
+                    
 		for($i=0 ; $i<$this->c ; $i++)
 		{
-		    $int1 .= mt_rand(1, 9);
-                }
+			$int1 .= mt_rand(1, 9);
+        }
 		
+		$k = $int1 * $this->strId;
+
 		$this->Session->set('captcha_' . $this->strId, array
 		(
+			'sk' => $this->strId,
 			'sum' => $int1,
 			'key' => $this->strCaptchaKey,
 			'anz' => $this->c,
-                        'fic_width' => ($this->fic_width) ? $this->fic_width : $GLOBALS['TL_CONFIG']['fic_width'],
-                        'fic_height' => ($this->fic_height) ? $this->fic_height : $GLOBALS['TL_CONFIG']['fic_height'],
-                        'fic_fontcolor' => ($this->fic_linecolor) ? $this->fic_fontcolor : $GLOBALS['TL_CONFIG']['fic_fontcolor'],
-                        'fic_linecolor' => ($this->fic_linecolor) ? $this->fic_linecolor : $GLOBALS['TL_CONFIG']['fic_linecolor'],
-                        'fic_bgcolor' => ($this->fic_bgcolor) ? $this->fic_bgcolor : $GLOBALS['TL_CONFIG']['fic_bgcolor'],
-                        'fic_length' => ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'],
-                        'fic_fontsize' => ($this->fic_fontsize) ? $this->fic_fontsize : $GLOBALS['TL_CONFIG']['fic_fontsize'],
-                        'fic_charset' => ($this->fic_charset) ? $this->fic_charset : $GLOBALS['TL_CONFIG']['fic_charset'],
-                        'fic_charspace' => ($this->fic_charspace) ? $this->fic_charspace : $GLOBALS['TL_CONFIG']['fic_charspace'],
-                        'fic_angle' => ($this->fic_angle) ? $this->fic_angle : $GLOBALS['TL_CONFIG']['fic_angle'],
-                        'fic_padding' => ($this->fic_padding) ? $this->fic_padding : $GLOBALS['TL_CONFIG']['fic_padding'],
-                        'fic_font' => ($this->fic_font) ? $this->fic_font : $GLOBALS['TL_CONFIG']['fic_font']
+            'fic_width' => ($this->fic_width) ? $this->fic_width : $GLOBALS['TL_CONFIG']['fic_width'],
+            'fic_height' => ($this->fic_height) ? $this->fic_height : $GLOBALS['TL_CONFIG']['fic_height'],
+            'fic_fontcolor' => ($this->fic_linecolor) ? $this->fic_fontcolor : $GLOBALS['TL_CONFIG']['fic_fontcolor'],
+            'fic_linecolor' => ($this->fic_linecolor) ? $this->fic_linecolor : $GLOBALS['TL_CONFIG']['fic_linecolor'],
+            'fic_bgcolor' => ($this->fic_bgcolor) ? $this->fic_bgcolor : $GLOBALS['TL_CONFIG']['fic_bgcolor'],
+            'fic_length' => ($this->fic_length) ? $this->fic_length : $GLOBALS['TL_CONFIG']['fic_length'],
+            'fic_fontsize' => ($this->fic_fontsize) ? $this->fic_fontsize : $GLOBALS['TL_CONFIG']['fic_fontsize'],
+            'fic_charset' => ($this->fic_charset) ? $this->fic_charset : $GLOBALS['TL_CONFIG']['fic_charset'],
+            'fic_charspace' => ($this->fic_charspace) ? $this->fic_charspace : $GLOBALS['TL_CONFIG']['fic_charspace'],
+            'fic_angle' => ($this->fic_angle) ? $this->fic_angle : $GLOBALS['TL_CONFIG']['fic_angle'],
+            'fic_padding' => ($this->fic_padding) ? $this->fic_padding : $GLOBALS['TL_CONFIG']['fic_padding'],
+            'fic_font' => ($this->fic_font) ? $this->fic_font : $GLOBALS['TL_CONFIG']['fic_font']
 
                         
 		));
-//                $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/FormImageCaptcha/html/js/ajax.js';
-                
-                $GLOBALS['TL_CSS'][] = 'system/modules/NumberImageCaptcha/html/css/nic_styles.css';
-                
-                $GLOBALS['TL_MOOTOOLS'][] = "
-                        <script type=\"text/javascript\">
-                        <!--//--><![CDATA[//><!--
-                        
-                        $$('input[name=sendAjax]').each(function(el){ el.set('value','0')});
-                        
-                        var doAjax = function(e){
-                          e.stop(); // prevent the form from submitting
+		$GLOBALS['TL_CSS'][] = 'system/modules/NumberImageCaptcha/html/css/nic_styles.css';
 
-                          new Request({
-                            url: 'ajax.php?action=ffl&id=".$this->strId."&sk=".$this->strId."',
-                            method: 'get',
-                            data: this,
-                            onRequest: function(){
-                              $('captcha_img').fade('out');
-                            },
-                            onSuccess: function(r){
-                              // the 'r' is response from server
-                             // $('number_box').setStyle('display','block');
-                                $('captcha_img').set('src', r);
-                                $('captcha_img').fade('in');
-                                $$('input[name=sendAjax]').each(function(el){ el.set('value','1')});
-                            }
-                          }).send();
-                        }
+		$GLOBALS['TL_MOOTOOLS'][] = "
+		        <script type=\"text/javascript\">
+		        <!--//--><![CDATA[//><!--
+		        
+		        $$('input[name=sendAjax]').each(function(el){ el.set('value','0')});
+		        
+		        var doAjax = function(e){
+		          e.stop(); // prevent the form from submitting
 
-                        addEvent('domready', function(){
-                          $('refresh_captcha').addEvent('click', doAjax);
-                        });
-                        //--><!]]>
-                        </script>
-                        ";
-                $this->loadLanguageFile('tl_form_field');       
-		return sprintf('<img src="system/modules/NumberImageCaptcha/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/>
+		          new Request({
+		            url: 'ajax.php?action=ffl&id=".$this->strId."&sk=".$this->strId."',
+		            method: 'get',
+		            data: this,
+		            onRequest: function(){
+		              $('captcha_img').fade('out');
+		            },
+		            onSuccess: function(r){
+		            	var rObj = JSON.decode(r);
+		            	// console.log(rObj);
+		             // $('number_box').setStyle('display','block');
+		                $('captcha_img').set('src', rObj.content.img);
+		                $$('input[name=k]')[0].set('value',rObj.content.k);
+		                $('captcha_img').fade('in');
+		                $$('input[name=sendAjax]').each(function(el){ el.set('value','1')});
+		            }
+		          }).send();
+		        }
+
+		        addEvent('domready', function(){
+		          $('refresh_captcha').addEvent('click', doAjax);
+		        });
+		        //--><!]]>
+		        </script>
+		        ";
+
+		$this->loadLanguageFile('tl_form_field');       
+		return sprintf('<img src="system/modules/NumberImageCaptcha/image.php?sk=%s&k=%s" alt="SecureImage" border="0"  id="captcha_img"/>
 		<a href="{{link_url::%s}}" id="refresh_captcha" title="'.$GLOBALS['TL_LANG']['tl_form_field']['fic_reload_button_text'][1].'">'.$GLOBALS['TL_LANG']['tl_form_field']['fic_reload_button_text'][0].'</a>
-		<input type="hidden" name="sendAjax" value="0"/>',
-						$this->strId,$objPage->id);
+		<input type="hidden" name="sendAjax" value="0"/>
+		<input type="hidden" name="k" value="%s">',
+						$this->strId,$this->strId * $int1,$objPage->id,$k);
 						
 		
 	}
 
-        public function generateAjax()
+    public function generateAjax()
 	{
             $this->import('Session');
 
             $sk = $this->Input->get('sk');
+            $int1='';
+
             $sessionName ='captcha_' . $sk;
-            $captchaSession = $this->Session->get($sessionName);
+            $this->captchaSession = $this->Session->get($sessionName);
          
             //new Code
-             if($captchaSession['fic_length']) $this->c = $captchaSession['fic_length'];
-             else $this->c = $GLOBALS['TL_CONFIG']['fic_length']; 
+			if($this->captchaSession['fic_length']) $this->c = $this->captchaSession['fic_length'];
+			else $this->c = $GLOBALS['TL_CONFIG']['fic_length']; 
             	          
             for($i=0 ; $i < $this->c ; $i++)
             {
-                $int1 .= mt_rand(1, 9);
+				$int1 .= mt_rand(1, 9);
             }
-            
-            $this->Session->set($sessionName['sum'],$int1);
+            $k = $int1 * $sk;
+            $this->captchaSession['sum'] = $int1;
+            $this->Session->set($sessionName,$this->captchaSession);
+            // $_SESSION['FE_DATA'][$sessionName] = $this->captchaSession;
 
-            print "system/modules/NumberImageCaptcha/image.php?sk=".$sk."&k=".$this->Session->get($sessionName['sum'])*$sk;
+            $ajaxArr = array(
+            		'img' => "system/modules/NumberImageCaptcha/image.php?sk=".$sk."&k=".$k,
+            		'k' => $k
+            	);
+            
+            return $ajaxArr;
         }
 
 }
-
-?>
