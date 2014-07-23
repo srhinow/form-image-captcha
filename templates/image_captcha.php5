@@ -4,6 +4,6 @@
     <td class="col_1 col_last"><?php echo $this->generateWithError(); ?> <?php echo $this->generateCaptcha(); ?></td>
   </tr>
 <?php else: ?>
-  <?php echo $this->generateLabel(); ?> 
+  <?php echo $this->generateLabel(); ?><?php if ($this->mandatory): ?><span class="mandatory">*</span><?php endif; ?> 
   <?php echo $this->generateWithError(); ?> <?php echo $this->generateCaptcha(); ?><br />
 <?php endif; ?>

@@ -30,7 +30,6 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC'][''] = '';
-$GLOBALS['TL_LANG']['FFL']['imagecaptcha']     = array('AntiSpam-Bild', 'ein Bild mit Zahlen , diese müssen in ein benachbartes Textfeld übertragen werden.');
-$GLOBALS['TL_LANG']['ERR']['imagecaptcha'] = 'Bitte tragen Sie die %s stellige Nummer in das nebenstehende Feld';
+$GLOBALS['TL_LANG']['ERR']['imagecaptcha'] = 'Bitte tragen Sie die %s Zeichen in das nebenstehende Feld.';
+$GLOBALS['TL_LANG']['FFL']['imagecaptcha'] = array('AntiSpam-Bild', 'Ein Bild mit Zeichen. Die Zeichen müssen in ein benachbartes Textfeld übertragen werden.');
 ?>
