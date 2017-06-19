@@ -1,9 +1,9 @@
 {
-  "name": "srhinow/invoice_and_offer",
-  "description": "a invoice,credit,offer,reminder,agreements -Tool for Contao CMS",
-  "keywords": ["contao", "invoice", "credit", "offer", "reminder", "agreements","projects"],
+  "name": "srhinow/FormImageCaptcha",
+  "description": "a image-captcha-widget for Contao CMS",
+  "keywords": ["contao", "image", "captcha", "widget", "spam","protect","Spamschutz"],
   "type": "contao-module",
-  "homepage": "https://github.com/srhinow/invoice_and_offer",
+  "homepage": "https://github.com/srhinow/FormImageCaptcha",
   "license": "GPL-3.0+",
   "authors":[
     {
@@ -14,8 +14,8 @@
   ],
   "support":{
     "email": "kservice@sr-tag.de",
-    "issues":"https://github.com/srhinow/invoice_and_offer/issues",
-    "source":"https://github.com/srhinow/invoice_and_offer"
+    "issues":"https://github.com/srhinow/FormImageCaptcha/issues",
+    "source":"hhttps://github.com/srhinow/FormImageCaptcha"
   },
   "require": {
     "php": ">=5.3",
@@ -23,12 +23,12 @@
     "contao-community-alliance/composer-plugin":"~2.4 || ~3.0"
   },
   "replace": {
-    "contao-legacy/invoice_and_offer": "self.version"
+    "contao-legacy/FormImageCaptcha": "self.version"
   },
   "extra": {
     "contao": {
       "sources": {
-        "": "system/modules/invoice_and_offer"
+        "": "system/modules/FormImageCaptcha"
       }
     }
   }
