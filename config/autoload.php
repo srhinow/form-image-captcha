@@ -16,7 +16,7 @@
  */
 ClassLoader::addClasses(array
 (
-	'NumberImageCaptcha' => 'system/modules/NumberImageCaptcha/NumberImageCaptcha.php',
+	'NumberImageCaptcha' => 'system/modules/NumberImageCaptcha/classes/NumberImageCaptcha.php',
 ));
 
 
