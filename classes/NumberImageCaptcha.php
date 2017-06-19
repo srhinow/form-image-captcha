@@ -58,6 +58,7 @@ class NumberImageCaptcha extends \Widget
 		// AJAX request
 		if ($_POST && \Environment::get('isAjaxRequest'))
 		{
+			ob_end_clean();
 			$this->generateAjax();
 		}
 
@@ -208,7 +209,6 @@ class NumberImageCaptcha extends \Widget
 						method = form.attr('method'),
 						data = form.serialize();
 
-        			console.log(action);
         			$.ajax({
 						url: action,
 				    	method: method,
