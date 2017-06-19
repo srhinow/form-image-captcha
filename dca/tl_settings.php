@@ -1,63 +1,37 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
- * TYPOlight webCMS
- * Copyright (C) 2005-2009 Leo Feyer
- *
- * This program is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation, either
- * version 2.1 of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, please visit the Free
- * Software Foundation website at http://www.gnu.org/licenses/.
- *
- * PHP version 5
- * @copyright  Leo Feyer 2005-2009
- * @author     Leo Feyer <leo@typolight.org>
- * @package    Backend
- * @license    LGPL
- * @filesource
- *
- * @copyright  sr-tag Webentwicklung 2011 
- * @author     Sven Rhinow 
+ * @copyright  sr-tag Webentwicklung 2016
+ * @author     Sven Rhinow
  * @package    NumberImageCaptcha
- * @license    LGPL 
+ * @license    LGPL
  * @filesource
  */
 
- 
- 
 /**
  * Palette
  */
- 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{imagecaptcha_legend:hide},fic_width,fic_height,fic_fontcolor,fic_linecolor,fic_bgcolor,fic_length,fic_fontsize,fic_charset,fic_charspace,fic_angle,fic_padding,fic_font';
+
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{imagecaptcha_legend:hide},nic_width,nic_height,nic_fontcolor,nic_linecolor,nic_bgcolor,nic_length,nic_fontsize,nic_charset,nic_charspace,nic_angle,nic_padding,nic_font';
 
 /**
  * Fields
  */
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_width'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_width'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_width'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_width'],
 			'default'		  => 91,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_height'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_height'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_height'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_height'],
 			'default'		  => 31,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_fontcolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_fontcolor'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_fontcolor'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_fontcolor'],
 			'inputType'               => 'text',
 			'default'		  => 'ffffff',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -66,8 +40,8 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['fic_fontcolor'] = array(
 				array('tl_settinghelper', 'colorPicker')
 			)
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_linecolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_linecolor'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_linecolor'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_linecolor'],
 			'inputType'               => 'text',
 			'default'		  => 'eeeeee',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -76,8 +50,8 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['fic_linecolor'] = array(
 				array('tl_settinghelper', 'colorPicker')
 			)
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_bgcolor'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_bgcolor'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_bgcolor'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_bgcolor'],
 			'inputType'               => 'text',
 			'default'		  => '000000',
 			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'tl_class'=>'w50 wizard'),
@@ -86,43 +60,44 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['fic_bgcolor'] = array(
 				array('tl_settinghelper', 'colorPicker')
 			)
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_font'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_font'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_font'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_font'],
 			'default'		  => 4,
 			'inputType'               => 'select',
 			'options_callback'        => array('tl_settinghelper', 'getFonts'),
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_fontsize'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_fontsize'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_fontsize'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_fontsize'],
 			'default'		  => 4,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_length'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_length'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_length'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_length'],
 			'default'		  => 5,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_charspace'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_charspace'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_charspace'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_charspace'],
 			'default'		  => 18,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_angle'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_angle'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_angle'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_angle'],
 			'default'		  => 0,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
-$GLOBALS['TL_DCA']['tl_settings']['fields']['fic_padding'] = array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['fic_padding'],
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nic_padding'] = array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['nic_padding'],
 			'default'		  => 0,
 			'inputType'               => 'text',
 			'eval'                    => array('tl_class'=>'w50')
 );
+
 /**
  * Class tl_settinghelper copy from tl_style
  *
@@ -141,10 +116,10 @@ class tl_settinghelper extends Backend
 	{
 		parent::__construct();
 
-		$GLOBALS['TL_CSS'][] = 'plugins/mootools/rainbow.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mootools/rainbow.js';
+		$GLOBALS['TL_CSS'][] = 'assets/mootools/colorpicker/1.4/css/mooRainbow.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/colorpicker/1.4/js/mooRainbow.js';
 	}
-	
+
 	/**
 	 * Return the color picker wizard
 	 * @param object
@@ -157,14 +132,14 @@ class tl_settinghelper extends Backend
 	      new MooRainbow("moo_'.$dc->field.'", {
 		id:"ctrl_' . $dc->field . '_0",
 		startColor:((cl = $("ctrl_'.$dc->field.'").value.hexToRgb(true)) ? cl : [255, 0, 0]),
-		imgPath:"plugins/colorpicker/images/",
+		imgPath:"assets/mootools/colorpicker/1.4/images/",
 		onComplete: function(color) {
 		  $("ctrl_' . $dc->field . '").value = color.hex.replace("#", "");
 		}
 	      });
 	      </script>';
 	}
-	
+
 	/**
 	 * Return all ttf-Files as array
 	 * @return array
@@ -172,20 +147,19 @@ class tl_settinghelper extends Backend
 	public function getFonts()
 	{
 		$arrReturn = array();
-		$arrFiles = scan(TL_ROOT . '/system/modules/NumberImageCaptcha/html');
+		$arrFiles = scan(TL_ROOT . '/system/modules/NumberImageCaptcha/assets/fonts');
                 #print_r($arrFiles);
 		foreach ($arrFiles as $strFile)
 		{
-			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/NumberImageCaptcha/html/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
+			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/NumberImageCaptcha/assets/fonts/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
 			{
 			     continue;
 			}
-                       
+
 			$arrReturn[$strFile] = $strFile;
 		}
 
 		return $arrReturn;
 	}
- 
+
 }
-?>
