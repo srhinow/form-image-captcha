@@ -1,9 +1,9 @@
 {
-  "name": "srhinow/FormImageCaptcha",
+  "name": "srhinow/form-image-captcha",
   "description": "a image-captcha-widget for Contao CMS",
   "keywords": ["contao", "image", "captcha", "widget", "spam","protect","Spamschutz"],
   "type": "contao-module",
-  "homepage": "https://github.com/srhinow/FormImageCaptcha",
+  "homepage": "https://github.com/srhinow/form-image-captcha",
   "license": "GPL-3.0+",
   "authors":[
     {
@@ -14,8 +14,8 @@
   ],
   "support":{
     "email": "kservice@sr-tag.de",
-    "issues":"https://github.com/srhinow/FormImageCaptcha/issues",
-    "source":"hhttps://github.com/srhinow/FormImageCaptcha"
+    "issues":"https://github.com/srhinow/form-image-captcha/issues",
+    "source":"https://github.com/srhinow/form-image-captcha"
   },
   "require": {
     "php": ">=5.3",
@@ -28,7 +28,7 @@
   "extra": {
     "contao": {
       "sources": {
-        "": "system/modules/FormImageCaptcha"
+        "": "system/modules/form-image-captcha"
       }
     }
   }
