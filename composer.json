@@ -23,7 +23,7 @@
     "contao-community-alliance/composer-plugin":"~2.4 || ~3.0"
   },
   "replace": {
-    "contao-legacy/FormImageCaptcha": "self.version"
+    "contao-legacy/NumberImageCaptcha": "self.version"
   },
   "extra": {
     "contao": {
