@@ -155,7 +155,7 @@ class tl_form_field_helper extends Backend
 	public function getFonts()
 	{
 		$arrReturn = array();
-		$arrFiles = scan(TL_ROOT . '/system/modules/FormImageCaptcha/assets/fonts');
+		$arrFiles = scan(TL_ROOT . '/system/modules/form-image-captcha/assets/fonts');
                 #print_r($arrFiles);
 		foreach ($arrFiles as $strFile)
 		{
