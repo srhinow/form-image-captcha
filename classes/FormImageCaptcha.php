@@ -1,14 +1,14 @@
 <?php
 /**
- * Class NumberImageCaptcha
+ * Class FormImageCaptcha
  *
  * captcha field.
  * @copyright  sr-tag Webentwicklung 2016
  * @author     Sven Rhinow
- * @package    NumberImageCaptcha
+ * @package    FormImageCaptcha
  * @license    LGPL
  */
-class NumberImageCaptcha extends \Widget
+class FormImageCaptcha extends \Widget
 {
 
 	/**
@@ -156,7 +156,7 @@ class NumberImageCaptcha extends \Widget
 
 		// $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/FormImageCaptcha/html/js/ajax.js';
 
-		$GLOBALS['TL_CSS'][] = 'system/modules/NumberImageCaptcha/assets/css/nic_styles.css';
+		$GLOBALS['TL_CSS'][] = 'system/modules/form-image-captcha/assets/css/nic_styles.css';
 
 		$GLOBALS['TL_MOOTOOLS'][] = "
 		<script type=\"text/javascript\">
@@ -225,7 +225,7 @@ class NumberImageCaptcha extends \Widget
 
 		$this->loadLanguageFile('tl_form_field');
 		
-		return sprintf('<img src="system/modules/NumberImageCaptcha/assets/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/>
+		return sprintf('<img src="system/modules/form-image-captcha/assets/image.php?sk=%s" alt="SecureImage" border="0"  id="captcha_img"/>
 		<a href="{{link_url::%s}}" id="refresh_captcha" title="'.$GLOBALS['TL_LANG']['tl_form_field']['nic_reload_button_text'][1].'">'.$GLOBALS['TL_LANG']['tl_form_field']['nic_reload_button_text'][0].'</a>
 		<input type="hidden" name="sendAjax" value="0"/>', $this->strId, $objPage->id );
 	}
@@ -249,7 +249,7 @@ class NumberImageCaptcha extends \Widget
 
 		$_SESSION[$sessionName]['nic_sum'] = $int1;
 
-		print "system/modules/NumberImageCaptcha/assets/image.php?sk=".$sk."&amp;k=".$_SESSION[$sessionName]['nic_sum']*$sk;
+		print "system/modules/form-image-captcha/assets/image.php?sk=".$sk."&amp;k=".$_SESSION[$sessionName]['nic_sum']*$sk;
 		exit();
 	}
 
