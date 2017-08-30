@@ -4,7 +4,7 @@
  * PHP version 5
  * @copyright  sr-tag Webentwicklung 2016
  * @author     Sven Rhinow 
- * @package    NumberImageCaptcha
+ * @package    FormImageCaptcha
  * @license    LGPL 
  * @filesource
  */
@@ -18,5 +18,5 @@
  */
  array_insert($GLOBALS['TL_FFL'], 12, array
 (
-    'imagecaptcha' => 'NumberImageCaptcha')
+    'imagecaptcha' => 'FormImageCaptcha')
 );

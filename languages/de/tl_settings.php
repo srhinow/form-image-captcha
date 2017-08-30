@@ -4,7 +4,7 @@
  * PHP version 5
  * @copyright  sr-tag Webentwicklung 2016 
  * @author     Sven Rhinow 
- * @package    NumberImageCaptcha 
+ * @package    FormImageCaptcha
  * @license    LGPL 
  * 
  */
@@ -24,4 +24,4 @@ $GLOBALS['TL_LANG']['tl_settings']['nic_linecolor'] = array('Linienfarbe','Geben
 $GLOBALS['TL_LANG']['tl_settings']['nic_bgcolor'] = array('Hintergrundfarbe','Geben Sie die Hintergrundfarbe als Hexadezimalcode an, Standart ist 000000');
 $GLOBALS['TL_LANG']['tl_settings']['nic_font'] = array('Schriftart');
  
-$GLOBALS['TL_LANG']['tl_settings']['imagecaptcha_legend'] = 'NumberImageCaptcha Einstellungen';
+$GLOBALS['TL_LANG']['tl_settings']['imagecaptcha_legend'] = 'FormImageCaptcha Einstellungen';

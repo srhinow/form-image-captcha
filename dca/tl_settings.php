@@ -3,7 +3,7 @@
 /**
  * @copyright  sr-tag Webentwicklung 2016
  * @author     Sven Rhinow
- * @package    NumberImageCaptcha
+ * @package    FormImageCaptcha
  * @license    LGPL
  * @filesource
  */
@@ -147,11 +147,11 @@ class tl_settinghelper extends Backend
 	public function getFonts()
 	{
 		$arrReturn = array();
-		$arrFiles = scan(TL_ROOT . '/system/modules/NumberImageCaptcha/assets/fonts');
+		$arrFiles = scan(TL_ROOT . '/system/modules/form-image-captcha/assets/fonts');
                 #print_r($arrFiles);
 		foreach ($arrFiles as $strFile)
 		{
-			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/NumberImageCaptcha/assets/fonts/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
+			if (($strFile[0] == '.') || is_dir(TL_ROOT . '/system/modules/form-image-captcha/assets/fonts/' . $strFile) || !in_array(stristr($strFile,'.'),array('.ttf')) )
 			{
 			     continue;
 			}

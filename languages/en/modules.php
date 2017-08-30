@@ -3,7 +3,7 @@
  * PHP version 5
  * @copyright  sr-tag Webentwicklung 2011
  * @author     Sven Rhinow
- * @package    NumberImageCaptcha
+ * @package    FormImageCaptcha
  * @license    LGPL
  * @filesource
  */
